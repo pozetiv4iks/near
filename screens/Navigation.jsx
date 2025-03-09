@@ -5,7 +5,7 @@ import { Registr } from "./Registr";
 
 const Stack = createNativeStackNavigator();
 
-export const Navigator = () => {
+export const Navigation = () => {
     return 
     <NavigationContainer>
         <Stack.Navigator>

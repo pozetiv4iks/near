@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Author } from './screens/Author';
 import { Load } from './screens/Load';
 import React, { useState, useEffect } from 'react';
+import { Navigation } from './screens/Navigation';
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -23,7 +24,7 @@ export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style={Platform.OS === 'android' ? 'light' : 'dark'} />
-      <Author />
+      <Author/>
     </SafeAreaView>
   );
 }
