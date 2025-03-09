@@ -3,8 +3,8 @@ import styled from 'styled-components/native';
 import LogoHeader from './LogoHeader';
 
 const BlockHeader = styled.View`
-  aligh-items:center;
-  justify-content:center;
+  align-items: center;   /* Исправлено написание */
+  justify-content: center;
   background-color: #FFD000;
   width: 100%;
   height: 60px;
@@ -22,12 +22,11 @@ const LogoBlockImg = styled.View`
 const LogoBlock = styled.View`
   display: flex;
   flex-direction: row;
-  justify-content:center;
-  align-items: center; 
+  justify-content: center;   
+  align-items: center;      
   margin-top: 10px;
   width: 179px;
   height: 40px;
-  left: 90px;
 `;
 
 const LogoTextBlock = styled.Text`

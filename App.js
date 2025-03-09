@@ -24,7 +24,7 @@ export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style={Platform.OS === 'android' ? 'light' : 'dark'} />
-      <Author/>
+      <Navigation/>
     </SafeAreaView>
   );
 }
