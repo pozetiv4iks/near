@@ -44,6 +44,10 @@ const ButtonText = styled.Text`
   font-weight: bold;
 `;
 
+const HomeButton = styled(Button)`
+  background-color: #ddd;
+`;
+
 const LogoutButton = styled(Button)`
   background-color: #ff4444;
 `;
@@ -52,7 +56,7 @@ const SaveButton = styled(Button)`
   background-color: #00C851;
 `;
 
-const Profile = () => {
+const Profile = ({navigation}) => {
   const context = useContext(UserContext);
   const user = context.user;
   const [isEditing, setIsEditing] = useState(false);
@@ -86,6 +90,10 @@ const Profile = () => {
       { cancelable: false }
     );
   };
+
+  const handleHome = () => {
+    navigation.replace("Home")
+  }
 
   return (
     <Container>
@@ -141,6 +149,9 @@ const Profile = () => {
             <LogoutButton onPress={handleLogout}>
                 <ButtonText>Выйти</ButtonText>
             </LogoutButton>
+            <HomeButton onPress={handleHome}>
+                <ButtonText>Домой</ButtonText>
+            </HomeButton>
         </Content>
     </Container>
   );
