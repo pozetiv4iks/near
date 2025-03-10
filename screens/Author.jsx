@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { View, TextInput, TouchableOpacity, Text } from 'react-native';
 import styled from 'styled-components/native';
 import { Header } from './components/Header';
-import { findUserEmail } from './service/service';
+import { findUserEmail } from './service/UserService';
+import { UserContext } from './userContext';
 
 const Container = styled.View`
   flex: 1;
@@ -72,49 +73,47 @@ export const Author = ({ navigation }) => {
   const [passwordError, setPasswordError] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
+  const context = useContext(UserContext);
+
   async function validate() {
     let isValid = true;
-
-    if (!email || !email.includes('@')) {
-      setEmailError('Некорректный email');
+  
+    if (!email || !email.includes("@")) {
+      setEmailError("Некорректный email");
       isValid = false;
     } else {
       try {
         const user = await findUserEmail(email);
         if (!user) {
-          setEmailError('Пользователь не найден');
+          setEmailError("Пользователь не найден");
           isValid = false;
         } else {
-          setEmailError('');
-          isValid = correctPassword(user.password);
+          setEmailError("");
+  
+          if (!passwordInput || passwordInput.length < 6) {
+            setPasswordError("Пароль должен содержать минимум 6 символов");
+            isValid = false;
+          } else if (passwordInput === user.password) {
+            context.setUser(user); 
+            setPasswordError("");
+          } else {
+            setPasswordError("Неверный пароль или email");
+            isValid = false;
+          }
         }
       } catch (error) {
-        setEmailError('Ошибка при проверке email');
+        setEmailError("Ошибка при проверке email");
         isValid = false;
       }
     }
-
-    function correctPassword(userPassword) {
-      if (!passwordInput || passwordInput.length < 6) {
-        setPasswordError('Пароль должен содержать минимум 6 символов');
-        return false;
-      } else if (passwordInput === userPassword) {
-        setPasswordError('');
-        return true;
-      } else {
-        setPasswordError('Неверный пароль или email');
-        return false;
-      }
-    }
-
+  
     return isValid;
   }
+  
 
   const handleSubmit = async () => {
     const isValid = await validate();
     if (isValid) {
-      console.log('Email:', email);
-      console.log('Password:', passwordInput);
       navigation.replace("Home");
     }
   };

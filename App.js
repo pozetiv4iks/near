@@ -5,9 +5,11 @@ import { Author } from './screens/Author';
 import { Load } from './screens/Load';
 import React, { useState, useEffect } from 'react';
 import { Navigation } from './screens/Navigation';
+import { UserContext } from './screens/userContext';
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState(null)
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -22,10 +24,12 @@ export default function App() {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar style={Platform.OS === 'android' ? 'light' : 'dark'} />
-      <Navigation/>
-    </SafeAreaView>
+    <UserContext.Provider value={{user, setUser}}>
+      <SafeAreaView style={styles.container}>
+        <StatusBar style={Platform.OS === 'android' ? 'light' : 'dark'} />
+        <Navigation/>
+      </SafeAreaView>
+    </UserContext.Provider>
   );
 }
 

@@ -3,6 +3,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Author } from "./Author";
 import { Registr } from "./Registr";
 import { Home } from "./Home";
+import { RequestPageSend } from "./RequestPageSend";
+import Profile from "./Profile";
 
 const Stack = createNativeStackNavigator();
 
@@ -23,6 +25,16 @@ export const Navigation = () => {
                 <Stack.Screen
                     name="Home"
                     component={Home}
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name="RequestPage"
+                    component={RequestPageSend}
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name="Profile"
+                    component={Profile}
                     options={{ headerShown: false }}
                 />
             </Stack.Navigator>

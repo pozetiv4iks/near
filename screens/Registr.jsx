@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native';
 import styled from 'styled-components/native';
 import { Header } from './components/Header';
-import { findUserEmail } from './service/service';
+import { createUser, findUserEmail } from './service/UserService';
 
 const Container = styled.View`
   flex: 1;
@@ -97,9 +97,9 @@ export const Registr = ({ navigation }) => {
   const [gender, setGender] = useState(null);
   const [errors, setErrors] = useState({});
 
-  const validate = () => {
+  const validate = async () => {
     const newErrors = {};
-
+  
     if (!firstName) newErrors.firstName = 'Имя обязательно';
     if (!lastName) newErrors.lastName = 'Фамилия обязательна';
     if (!email || !email.includes('@')) newErrors.email = 'Некорректный email';
@@ -108,21 +108,30 @@ export const Registr = ({ navigation }) => {
     if (!gender) newErrors.gender = 'Выберите пол';
     if (!password || password.length < 6) newErrors.password = 'Пароль должен содержать минимум 6 символов';
     if (password !== confirmPassword) newErrors.confirmPassword = 'Пароли не совпадают';
-    if(!findUserEmail(email)) newErrors.email = 'Почта уже используется';
-
+  
+    try {
+      const emailExists = await findUserEmail(email); // Дожидаемся ответа
+      if (emailExists) {
+        newErrors.email = 'Почта уже используется';
+      }
+    } catch (error) {
+      console.error('Ошибка при проверке email:', error);
+    }
+  
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
+  
 
   const handleSubmit = async () => {
     isValid = await validate();
     if (isValid) {
-
+      await createUser(firstName, lastName, email, password, phone, gender, age)
       navigation.replace("Home");
     }
   };
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     navigation.replace("Authorization");
   };
 
