@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native';
 import styled from 'styled-components/native';
 import { Header } from './components/Header';
 import { createUser, findUserEmail } from './service/UserService';
+import { UserContext } from './userContext';
 
 const Container = styled.View`
   flex: 1;
@@ -97,6 +98,8 @@ export const Registr = ({ navigation }) => {
   const [gender, setGender] = useState(null);
   const [errors, setErrors] = useState({});
 
+  const context = useContext(UserContext);
+
   const validate = async () => {
     const newErrors = {};
   
@@ -126,7 +129,8 @@ export const Registr = ({ navigation }) => {
   const handleSubmit = async () => {
     isValid = await validate();
     if (isValid) {
-      await createUser(firstName, lastName, email, password, phone, gender, age)
+      const user = await createUser(firstName, lastName, email, password, phone, gender, age); 
+      context.setUser(user);
       navigation.replace("Home");
     }
   };

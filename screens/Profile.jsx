@@ -85,11 +85,16 @@ const Profile = ({navigation}) => {
           text: 'Отмена',
           style: 'cancel',
         },
-        { text: 'Выйти', onPress: () => console.log('Выход выполнен') },
+        { text: 'Выйти', onPress: () => Exit() },
       ],
       { cancelable: false }
     );
   };
+
+  const Exit = () => {
+    context.setUser(null);
+    navigation.replace('Authorization')
+  }
 
   const handleHome = () => {
     navigation.replace("Home")
