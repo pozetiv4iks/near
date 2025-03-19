@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { Header } from './components/Header';
 import styled from 'styled-components/native';
 import { createPost } from './service/ReqService';
+import { UserContext } from './userContext';
 
 const Container = styled.View`
   flex: 1;
@@ -54,6 +55,9 @@ export const RequestPageSend = () => {
   const [titleError, setTitleError] = useState('');
   const [descriptionError, setDescriptionError] = useState('');
 
+  const context = useContext(UserContext);
+  const user = context.user;
+
   const handleSubmit = async () => {
     let isValid = true;
 
@@ -72,7 +76,7 @@ export const RequestPageSend = () => {
     }
 
     if (isValid) {
-      await createPost()
+      await createPost(title, description, user._id)
       navigation.navigate('Home');
     }
   };

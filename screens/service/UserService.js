@@ -33,24 +33,27 @@ const createUser = async (name, lastName, email, password, number, gender, age) 
   }
 }
 
+const updateDataUser = async (id, name, lastName, email, password, number, gender, age) => {
+  try {
+    const data = {
+           name: name,
+           lastName: lastName,
+           email: email,
+           password: password,
+           number: +number,
+           gender: gender,
+           age: +age,
+       };
+       console.log(id)
+    const response = await axios.put(`${API_URL}/${id}`, data);
+    return response.data
+  } catch (error) {
+    console.error('Error in update user:', error);
+    throw error;
+  }
+}
 
 
 
-export { findUserEmail, createUser}
 
-// const User = new mongoose.Schema({
-//     name: {type: String, required: true},
-//     lastName: {type: String, required: true},
-//     email: {type: String, required: true},
-//     password: {type: String, required: true},
-//     number: {type: Number, required: true},
-//     gender: {type: String, required: true},
-//     age: {type: Number, required: true},
-//     status: {type: String, default: 'user'},
-// })
-
-
-// userRouter.post('/create', userController.create);
-// userRouter.get('/:id', userController.getUserOfId);
-// userRouter.put('/:id', userController.updateUserOfId);
-// userRouter.get('/email/:email', userController.getUserEmail);
+export { findUserEmail, createUser, updateDataUser}

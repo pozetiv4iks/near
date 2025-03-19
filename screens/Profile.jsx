@@ -3,6 +3,7 @@ import { Alert, View } from 'react-native';
 import styled from 'styled-components/native';
 import { Header } from './components/Header';
 import { UserContext } from './userContext';
+import { updateDataUser } from './service/UserService';
 
 const Container = styled.View`
   flex: 1;
@@ -72,8 +73,8 @@ const Profile = ({navigation}) => {
   };
 
   const handleSave = () => {
+    updateDataUser(user._id, name, surname, email, password, phone, user.gender, age)
     setIsEditing(false);
-    // Здесь можно добавить логику сохранения данных
   };
 
   const handleLogout = () => {
