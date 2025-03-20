@@ -10,6 +10,25 @@ const Container = styled.View`
   background-color: #fff;
 `;
 
+const Button = styled.TouchableOpacity`
+  width: 100%;
+  padding: 16px;
+  background-color: #FFD700;
+  border-radius: 8px;
+  align-items: center;
+  margin-bottom: 16px;
+`;
+
+const ButtonText = styled.Text`
+  color: #fff;
+  font-weight: bold;
+`;
+
+const HomeButton = styled(Button)`
+  margin-top:16px;
+  background-color: #ddd;
+`;
+
 const Content = styled.View`
   padding: 16px;
 `;
@@ -39,7 +58,7 @@ const SubmitButton = styled.TouchableOpacity`
 `;
 
 const SubmitText = styled.Text`
-  color: #ffff;
+  color: #ffffff;
 `;
 
 const ErrorText = styled.Text`
@@ -48,15 +67,13 @@ const ErrorText = styled.Text`
   margin-top: 4px;
 `;
 
-export const RequestPageSend = () => {
-  const navigation = useNavigation();
+export const RequestPageSend = ({ navigation }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [titleError, setTitleError] = useState('');
   const [descriptionError, setDescriptionError] = useState('');
 
-  const context = useContext(UserContext);
-  const user = context.user;
+  const { user } = useContext(UserContext);
 
   const handleSubmit = async () => {
     let isValid = true;
@@ -76,9 +93,17 @@ export const RequestPageSend = () => {
     }
 
     if (isValid) {
-      await createPost(title, description, user._id)
-      navigation.navigate('Home');
+      try {
+        await createPost(title, description, user._id);
+        navigation.navigate('Home');
+      } catch (error) {
+        console.error('Ошибка при отправке запроса:', error);
+      }
     }
+  };
+
+  const handleHome = () => {
+    navigation.replace('Home');
   };
 
   return (
@@ -91,7 +116,7 @@ export const RequestPageSend = () => {
           value={title}
           onChangeText={(text) => {
             setTitle(text);
-            setTitleError(''); 
+            setTitleError('');
           }}
         />
         {titleError ? <ErrorText>{titleError}</ErrorText> : null}
@@ -103,7 +128,7 @@ export const RequestPageSend = () => {
           value={description}
           onChangeText={(text) => {
             setDescription(text);
-            setDescriptionError(''); 
+            setDescriptionError('');
           }}
         />
         {descriptionError ? <ErrorText>{descriptionError}</ErrorText> : null}
@@ -111,6 +136,9 @@ export const RequestPageSend = () => {
         <SubmitButton onPress={handleSubmit}>
           <SubmitText>Отправить</SubmitText>
         </SubmitButton>
+        <HomeButton onPress={handleHome}>
+          <ButtonText>Домой</ButtonText>
+        </HomeButton>
       </Content>
     </Container>
   );

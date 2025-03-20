@@ -4,6 +4,7 @@ import styled from 'styled-components/native';
 import { Header } from './components/Header';
 import { createUser, findUserEmail } from './service/UserService';
 import { UserContext } from './userContext';
+import { useNavigation } from '@react-navigation/native';
 
 const Container = styled.View`
   flex: 1;
@@ -87,7 +88,7 @@ const ErrorText = styled.Text`
   margin-left: 40px;
 `;
 
-export const Registr = ({ navigation }) => {
+export const Registr = ( {navigation} ) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
